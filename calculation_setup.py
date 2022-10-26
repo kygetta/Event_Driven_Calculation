@@ -34,6 +34,11 @@ class CalculationClient(MqttClient):
         self.publish(self.pubTopic, json.dumps(info).encode('utf-8'))
         print('published random numbers')
         print(info)
+        
+    def start(self):
+        self.publishCalculation()
+        super().start()
+        
 
 
 if __name__ == "__main__":
