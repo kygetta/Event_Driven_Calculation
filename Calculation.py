@@ -24,9 +24,9 @@ class Calculate(MqttClient):
         self.subscribe('/calculation/setup')
         self.pubTopic = ('/calculated/')  # we decide what topic to publish to when we receive a message
         self.calcDict = {
-          "num1" : 0
-          "num2" : 0
-          "setup" : ""
+          "num1" : 0,
+          "num2" : 0,
+          "setup" : "",
           "result" : 0}
 
     def on_message(self, client, userdata, msg):
