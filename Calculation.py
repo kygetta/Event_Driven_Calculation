@@ -16,16 +16,16 @@ class Calculate(MqttClient):
 		super().__init__(ip, port, uid)
 		self.subscribe('/random_numbers')
 		self.subscribe('/calculation/setup')
-		if(info['setup']) = '+':
+		if(info['setup']) == '+':
 			self.pubTopic = '/calculated/add'
-		elif(info['setup']) = '-':
+		elif(info['setup']) == '-':
 			self.pubTopic = '/calculated/subtract'
 
 	def PublishCalculation(self):
-		if(info['setup']) = '+':
-			result = (data['num1']) + (data['num2'])
-		elif(info['setup']) = '-':
-			result = (data['num1']) - (data['num2'])
+		if(info['setup']) == '+':
+			result == (data['num1']) + (data['num2'])
+		elif(info['setup']) == '-':
+			result == (data['num1']) - (data['num2'])
 
 		calcinfo= {
 			'setup' : operation,
