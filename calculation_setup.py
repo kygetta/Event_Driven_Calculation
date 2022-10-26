@@ -22,9 +22,7 @@ class CalculationClient(MqttClient):
         self.pubTopic = '/calculation/setup'
 
     def publishCalculation(self):
-        operation = input(
-            "Would you like to perform addition or subtraction? (Enter '-' or '+')")
-
+        
         info = {
             'type': 'setup',
             'setup': operation
@@ -46,3 +44,15 @@ if __name__ == "__main__":
     client = RandomNumberClient("127.0.0.1", 1883, '')
 
     client.start()
+    loop = True
+    
+    while loop:
+      operation = input(
+            "Would you like to perform addition or subtraction? (Enter '-' or '+' or 'exit' to exit)")
+      if(operation == '+' || operation == '-'):
+        client.publishCalculation(operation)
+      elif(operation == 'exit'):
+        break
+      else: 
+        print("Invalid inuput")
+
