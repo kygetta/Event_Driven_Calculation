@@ -19,9 +19,9 @@ Program 3) Calculation
 This program will receive data on the topics "/random_numbers" and "/calculation/setup"
 The program will use the input from "Calculation Setup" to tell it whether to perform addition("+") or subtraction("-")
 The program will use the random number data to calculate either the addition or subtraction of "num1" and "num2"
-Once the calcualtion is complete, the program will publish the result on topic "/calculated/add" for "+" or "/calculated/subtract" for "-"
+Once the calculation is complete, the program will publish the result on topic "/calculated/add" for "+" or "/calculated/subtract" for "-"
 example message {"type":"calculation","setup":"+","result":43.3453}
 
 Program 4) Results Client
 This program will subscribe to the topic "calculated/#"
-The program shall print out all recieved data
+The program shall print out all received data
