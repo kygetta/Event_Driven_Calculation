@@ -22,36 +22,32 @@ class Calculate(MqttClient):
         super().__init__(ip, port, uid)
         self.subscribe('/random_numbers')
         self.subscribe('/calculation/setup')
-        self.pubTopic = ''  # we decide what topic to publish to when we receive a message
-        self.calcDict: dict[str, str] = {}
+        self.pubTopic = ('/calculated/')  # we decide what topic to publish to when we receive a message
+        self.calcDict = {
+          "num1" : 0
+          "num2" : 0
+          "setup" : ""
+          "result" : 0}
 
     def on_message(self, client, userdata, msg):
-        data: dict = json.loads(msg.payload.decode('utf-8'))
+        data = json.loads(msg.payload.decode('utf-8'))
         # if we receive message with random numbers, save them in calcDict as num1 and num2
-        if (data['type'] == 'random_number'):
+        if num1 in data:
             self.calcDict['num1'] = data['num1']
             self.calcDict['num2'] = data['num2']
         # else if we receive message with setup, save it in calcDict as the operator
-        elif (data['type'] == 'setup'):
+        if type in data:
             self.calcDict['setup'] = data['setup']
+            self.publishCalculation()
+           
 
-        # if we have both numbers and the operator, send the calculation to publishCalculation
-        if (self.calcDict['num1'] != None and self.calcDict['num2'] != None and self.calcDict['setup'] != None):
-            self.publishCalculation(self.calcDict)
-
-    def publishCalculation(self, calcDict):
-        result: int = 0
+    def publishCalculation(self):
         if (calcDict['setup']) == '+':
-            result = (calcDict['num1']) + (calcDict['num2'])
+            self.calcDict['result'] = (self.calcDict['num1']) + (self.calcDict['num2'])
         elif (calcDict['setup']) == '-':
-            result = (calcDict['num1']) - (calcDict['num2'])
+            self.calcDict['result'] = (self.calcDict['num1']) - (self.calcDict['num2'])
 
-        calcInfo = {
-            'setup': calcDict['operation'],
-            'result': result
-        }
-
-        self.publish(self.pubTopic, json.dumps(calcInfo).encode('utf-8'))
+        self.publish(self.pubTopic, json.dumps(self.calcDict).encode('utf-8'))
         # print(calcinfo) for debugging
 
 
