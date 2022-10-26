@@ -24,18 +24,11 @@ class Calculate(MqttClient):
         self.subscribe('/calculation/setup')
         self.pubTopic = ''  # we decide what topic to publish to when we receive a message
 
-        def on_message(self, client, userdata, msg):
-            data: dict = json.loads(msg.payload.decode('utf-8'))
-            if (data['setup']) == '+':
-                self.pubTopic = '/calculated/add'
-            elif (data['setup']) == '-':
-                self.pubTopic = '/calculated/subtract'
-            else:
-                # if the user enters anything other than '+' or '-'
-                print('Invalid input')
-                exit(0)  # exit the program
+    def on_message(self, client, userdata, msg):
+        data: dict = json.loads(msg.payload.decode('utf-8'))
+        
 
-    def PublishCalculation(self, data):
+    def publishCalculation(self, data):
         result: int = 0
         if (data['setup']) == '+':
             result = (data['num1']) + (data['num2'])
@@ -46,11 +39,13 @@ class Calculate(MqttClient):
             'setup': data['operation'],
             'result': result
         }
+
         self.publish(self.pubTopic, json.dumps(calcinfo).encode('utf-8'))
-        #print(calcinfo) for debugging
+        # print(calcinfo) for debugging
 
 
 if __name__ == "__main__":
+    # need to change
 
     client = RandomNumberClient("127.0.0.1", 1883, '')
     client.start()
