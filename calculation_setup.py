@@ -15,13 +15,13 @@ import sys
 sys.path.append('..')
 
 
-class CalculationClient(MqttClient):
+class CalculationSetupClient(MqttClient):
 
     def __init__(self, ip, port, uid):
         super().__init__(ip, port, uid)
         self.pubTopic = '/calculation/setup'
 
-    def publishCalculation(self):
+    def publishCalculation(self, operation):
         
         info = {
             'type': 'setup',
@@ -33,20 +33,16 @@ class CalculationClient(MqttClient):
         print('published random numbers')
         print(info)
         
-    def start(self):
-        self.publishCalculation()
-        super().start()
         
 
 
 if __name__ == "__main__":
     # need to change
-    client = RandomNumberClient("127.0.0.1", 1883, '')
+    client = CalculationSetupClient("127.0.0.1", 1883, '')
 
     client.start()
-    loop = True
     
-    while loop:
+    while True:
       operation = input(
             "Would you like to perform addition or subtraction? (Enter '-' or '+' or 'exit' to exit)")
       if(operation == '+' || operation == '-'):
