@@ -44,15 +44,17 @@ class Calculate(MqttClient):
     def publishCalculation(self):
         if (calcDict['setup']) == '+':
             self.calcDict['result'] = (self.calcDict['num1']) + (self.calcDict['num2'])
+            self.publish(self.pubTopic + 'add', json.dumps(self.calcDict).encode('utf-8'))
         elif (calcDict['setup']) == '-':
             self.calcDict['result'] = (self.calcDict['num1']) - (self.calcDict['num2'])
+            self.publish(self.pubTopic + 'subtract', json.dumps(self.calcDict).encode('utf-8'))
 
-        self.publish(self.pubTopic, json.dumps(self.calcDict).encode('utf-8'))
+        
         # print(calcinfo) for debugging
 
 
 if __name__ == "__main__":
     # need to change
 
-    client = RandomNumberClient("127.0.0.1", 1883, '')
+    client = Calculate("127.0.0.1", 1883, '')
     client.start()
