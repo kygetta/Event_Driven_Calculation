@@ -1,3 +1,8 @@
+'''
+Program 1) Random Number Generator -> already done for you and attached.
+ - publishes 2 random numbers every 1 second on the topic "/random_numbers"
+ - example message -> {"type":"random_number", "num1":12.323, "num2":34.232, "timestamp":"some timestamp"}
+'''
 import sys
 sys.path.append('..')
 
@@ -6,9 +11,6 @@ from random import random
 from datetime import datetime
 from mqtt_basic import MqttClient
 from RepeatingTimer import RepeatingTimer
-
-import signal
-signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 class RandomNumberClient(MqttClient):
 

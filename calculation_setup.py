@@ -1,7 +1,14 @@
+'''
+Program 2) Calculation Setup
+ - This program will ask for user input as to whether they want to the system to perform addition or subtraction
+ - Ask the user to input either a "+" for addition or a "-" for subtraction
+ - Once the user input is received, the program will publish the selection over the topic "/calculation/setup"
+ - This format can be in any format you wish to use
+ - The program should continue asking the user for input as it should be able to change at any point in time
+ - example message -> {"type":"setup", "setup":"+"} or {"type":"setup", "setup":"-"} 
+'''
 from random_num_client import RandomNumberClient
-from RepeatingTimer import RepeatingTimer
 from mqtt_basic import MqttClient
-from datetime import datetime
 from random import random
 import json
 import sys
@@ -17,10 +24,13 @@ class CalculationClient(MqttClient):
     def publishCalculation(self):
         operation = input(
             "Would you like to perform addition or subtraction? (Enter '-' or '+')")
-        while True:
-            info = {
-                'setup': operation
-            }
+
+        info = {
+            'type': 'setup',
+            'setup': operation
+
+        }
+
         self.publish(self.pubTopic, json.dumps(info).encode('utf-8'))
         print('published random numbers')
         print(info)
