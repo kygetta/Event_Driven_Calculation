@@ -24,6 +24,6 @@ class ResultsClient(MqttClient):
 
 
 if __name__ == "__main__":
-
+    # need to change
     client = ResultsClient("127.0.0.1", 1883, '')
     client.start()
