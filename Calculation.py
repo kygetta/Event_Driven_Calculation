@@ -22,34 +22,37 @@ class Calculate(MqttClient):
         super().__init__(ip, port, uid)
         self.subscribe('/random_numbers')
         self.subscribe('/calculation/setup')
-        self.pubTopic = ('/calculated/')  # we decide what topic to publish to when we receive a message
+        # we decide what topic to publish to when we receive a message
+        self.pubTopic = ('/calculated/')
         self.calcDict = {
-          "num1" : 0,
-          "num2" : 0,
-          "setup" : "",
-          "result" : 0}
+            "num1": 0,
+            "num2": 0,
+            "setup": "",
+            "result": 0}
 
     def on_message(self, client, userdata, msg):
         data = json.loads(msg.payload.decode('utf-8'))
         # if we receive message with random numbers, save them in calcDict as num1 and num2
-        if num1 in data:
+        if 'num1' in data:
             self.calcDict['num1'] = data['num1']
             self.calcDict['num2'] = data['num2']
         # else if we receive message with setup, save it in calcDict as the operator
         if type in data:
             self.calcDict['setup'] = data['setup']
             self.publishCalculation()
-           
 
     def publishCalculation(self):
-        if (calcDict['setup']) == '+':
-            self.calcDict['result'] = (self.calcDict['num1']) + (self.calcDict['num2'])
-            self.publish(self.pubTopic + 'add', json.dumps(self.calcDict).encode('utf-8'))
-        elif (calcDict['setup']) == '-':
-            self.calcDict['result'] = (self.calcDict['num1']) - (self.calcDict['num2'])
-            self.publish(self.pubTopic + 'subtract', json.dumps(self.calcDict).encode('utf-8'))
+        if (self.calcDict['setup']) == '+':
+            self.calcDict['result'] = (
+                self.calcDict['num1']) + (self.calcDict['num2'])
+            self.publish(self.pubTopic + 'add',
+                         json.dumps(self.calcDict).encode('utf-8'))
+        elif (self.calcDict['setup']) == '-':
+            self.calcDict['result'] = (
+                self.calcDict['num1']) - (self.calcDict['num2'])
+            self.publish(self.pubTopic + 'subtract',
+                         json.dumps(self.calcDict).encode('utf-8'))
 
-        
         # print(calcinfo) for debugging
 
 
